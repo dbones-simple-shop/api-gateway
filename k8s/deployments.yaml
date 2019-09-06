@@ -15,16 +15,16 @@ spec:
         - name: apigateway
           image: dbonessimplestore/apigateway:latest
           imagePullPolicy: Always
-          readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /hc
-              port: 80
-              scheme: HTTP
-            initialDelaySeconds: 10
-            periodSeconds: 2
-            successThreshold: 2
-            timeoutSeconds: 2
+          # readinessProbe:
+          #   failureThreshold: 3
+          #   httpGet:
+          #     path: /hc
+          #     port: 80
+          #     scheme: HTTP
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 2
+          #   successThreshold: 2
+          #   timeoutSeconds: 2
           # resources:
           #   limits:
           #     memory: 512Mi
