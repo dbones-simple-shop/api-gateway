@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Core.Infrastructure.Application;
+﻿using Core.Infrastructure.Application;
 using Core.Infrastructure.Logging;
 using Core.Infrastructure.Tracing;
 using Microsoft.AspNetCore;
@@ -11,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace ApiGateway
 {
@@ -20,18 +16,22 @@ namespace ApiGateway
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
-                .AddJsonFile("ocelot.json")
+                .AddJsonFile(Path.Combine("config", "stagesettings.json"), true)
+                .AddJsonFile(Path.Combine("config", "ocelot.json"))
                 .AddEnvironmentVariables()
                 .AddCommandLine(args)
                 .Build();
             
             var port = configuration.GetSection("Application").Get<ApplicationConfiguration>().PortNumber;
-
             
             IWebHostBuilder builder = WebHost.CreateDefaultBuilder(args);
             builder.ConfigureServices(s => s.AddSingleton(builder))
-                //.UseConfiguration(configuration)
-                .ConfigureAppConfiguration(ic => ic.AddJsonFile("ocelot.json"))
+                .UseConfiguration(configuration)
+                .ConfigureAppConfiguration(ic => 
+                {
+                    ic.AddJsonFile(Path.Combine("config", "stagesettings.json"), true)
+                        .AddJsonFile(Path.Combine("config", "ocelot.json"));
+                })
                 
                 .ConfigureLogging((hostingContext, loggingbuilder) =>
                 {
@@ -42,7 +42,6 @@ namespace ApiGateway
                 .UseKestrel()
                 .ConfigureTracing(configuration)
                 .UseStartup<Startup>();
-            
             
             builder.Build().Run();
         }

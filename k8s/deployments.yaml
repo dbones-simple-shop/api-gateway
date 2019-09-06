@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: apigateway
+  name: apigateway
+spec:
+  template:
+    metadata:
+      labels:
+        app: simple-shop
+        component: apigateway
+        team: platform
+    spec:
+      containers:
+        - name: apigateway
+          image: dbonessimplestore/apigateway:latest
+          imagePullPolicy: Always
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /hc
+              port: 7000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 2
+            successThreshold: 2
+            timeoutSeconds: 2
+          # resources:
+          #   limits:
+          #     memory: 512Mi
+          #   requests:
+          #     memory: 256Mi
+          volumeMounts:
+            - name: config
+              mountPath: /app/config
+      volumes:
+        - name: config
+          configMap:
+            name: serviceconfig
+            items:
+              - key: svcconfig
+                path: stagesettings.json
+              - key: ocelotconfig
+                path: ocelot.json
