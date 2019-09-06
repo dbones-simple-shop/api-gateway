@@ -17,4 +17,4 @@ spec:
       - path: /gateway
         backend:
           serviceName: apigateway
-          servicePort: 7000
+          servicePort: 80
