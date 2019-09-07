@@ -4,7 +4,7 @@ metadata:
   namespace: apigateway
   labels:
     app: simple-shop
-    component: proxy
+    component: k8s-ingress
     team: platform
   name: k8s-ingress
   annotations:
