@@ -38,7 +38,7 @@ namespace ApiGateway
                     loggingbuilder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                 })
                 .ConfigureLogging()
-                .UseUrls($"http://localhost:{port}")
+                .UseUrls($"http://*:{port}")
                 .UseKestrel()
                 .ConfigureTracing(configuration)
                 .UseStartup<Startup>();
