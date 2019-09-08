@@ -14,7 +14,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /gateway
+      - path: /
         backend:
           serviceName: apigateway
           servicePort: 80

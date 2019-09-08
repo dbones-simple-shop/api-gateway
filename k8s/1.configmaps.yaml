@@ -14,6 +14,10 @@ data:
           "default": "Information"
         },
         "logger": "fluentd"
+      },
+
+      "tracing": {
+        "jaegerUrl":"jaeger-collector.istio-system"
       }     
     }
   ocelotconfig: |-
