@@ -37,6 +37,7 @@ namespace ApiGateway
                 {
                     loggingbuilder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                 })
+                .ConfigureApplication()
                 .ConfigureLogging()
                 .UseUrls($"http://*:{port}")
                 .UseKestrel()
